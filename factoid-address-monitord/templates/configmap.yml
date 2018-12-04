@@ -1,9 +1,0 @@
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Values.name }}-configmap
-data:
-  factomdConfig: {{ .Values.factomdConfig }}
-  addresses: {{ .Values.addresses }}
-...

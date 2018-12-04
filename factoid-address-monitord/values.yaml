@@ -1,0 +1,12 @@
+---
+bitcoinTaxKey: ''
+bitcoinTaxSecret: ''
+currency: USD
+host: localhost
+installDir: /home/node/factoid-address-monitord
+port: 8088
+recordCoinbaseReceipts: true
+recordNonCoinbaseReceipts: false
+saveToBitcoinTax: false
+saveToCsv: true
+...

@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Chart.Name }}-pod
+spec:
+  containers:
+    - name: {{ .Chart.Name }}
+      image: bedrocksolutions/factoid-address-monitord:latest
+      volumeMounts:
+        - name: config-volume
+          mountPath: "{{ .Values.installDir }}/config"
+        - name: csv-volume
+          mountPath: "{{ .Values.installDir }}/csv"
+        - name: db-volume
+          mountPath: "{{ .Values.installDir }}/db"
+  volumes:
+    - name: config-volume
+      configMap:
+        name: {{ .Chart.Name }}-configmap
+        items:
+        - key: config
+          path: default.json
+    - name: csv-volume
+      persistentVolumeClaim:
+        claimName: "{{ .Chart.Name }}-csv-disk"
+    - name: db-volume
+      persistentVolumeClaim:
+        claimName: {{ .Chart.Name }}-db-disk
+  restartPolicy: Never
+...

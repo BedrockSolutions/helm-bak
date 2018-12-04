@@ -1,7 +1,0 @@
----
-factomdConfig:
-  host: localhost
-  port: 8088
-
-addresses: []
-...
