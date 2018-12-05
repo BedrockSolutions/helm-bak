@@ -3,7 +3,8 @@ bitcoinTaxKey: ''
 bitcoinTaxSecret: ''
 currency: USD
 host: localhost
-installDir: /home/node/factoid-address-monitord
+imageTag: v1.0
+installDir: /home/node/app
 port: 8088
 recordCoinbaseReceipts: true
 recordNonCoinbaseReceipts: false

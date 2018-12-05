@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: default-configmap
+data:
+  config: |-
+    {
+      "factomdConfig": {
+        "host": "{{ .Values.host }}",
+        "port": "{{ .Values.port }}"
+      },
+      "addresses": [{
+        "address": "{{ .Values.address }}",
+        "bitcoinTaxKey": "{{ .Values.bitcoinTaxKey }}",
+        "bitcoinTaxSecret": "{{ .Values.bitcoinTaxSecret }}",
+        "currency": "{{ .Values.currency }}",
+        "nickname": "{{ .Values.nickname }}",
+        "recordCoinbaseReceipts": "{{ .Values.recordCoinbaseReceipts }}",
+        "recordNonCoinbaseReceipts": "{{ .Values.recordNonCoinbaseReceipts }}",
+        "saveToBitcoinTax": "{{ .Values.saveToBitcoinTax }}",
+        "saveToCsv": "{{ .Values.saveToCsv }}"
+      }]
+    }
+...

@@ -6,26 +6,28 @@ metadata:
 spec:
   containers:
     - name: {{ .Chart.Name }}
-      image: bedrocksolutions/factoid-address-monitord:latest
+      image: bedrocksolutions/factoid-address-monitord:{{ .Values.imageTag }}
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: "500m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
       volumeMounts:
         - name: config-volume
           mountPath: "{{ .Values.installDir }}/config"
-        - name: csv-volume
-          mountPath: "{{ .Values.installDir }}/csv"
         - name: db-volume
           mountPath: "{{ .Values.installDir }}/db"
   volumes:
     - name: config-volume
       configMap:
-        name: {{ .Chart.Name }}-configmap
+        name: default-configmap
         items:
         - key: config
           path: default.json
-    - name: csv-volume
-      persistentVolumeClaim:
-        claimName: "{{ .Chart.Name }}-csv-disk"
     - name: db-volume
-      persistentVolumeClaim:
-        claimName: {{ .Chart.Name }}-db-disk
+      dbVolumeClaim:
+        claimName: db-pvc
   restartPolicy: Never
 ...
