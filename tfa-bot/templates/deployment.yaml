@@ -24,16 +24,17 @@ spec:
             - name: BOTURL
               value: {{ .Values.app.botUrl | quote }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-          livenessProbe:
-            exec:
-              command:
-                - pgrep mono
-              initialDelaySeconds: 30
-              timeoutSeconds: 5
+#          livenessProbe:
+#            exec:
+#              command:
+#                - pgrep mono
+#              initialDelaySeconds: 30
+#              timeoutSeconds: 5
           readinessProbe:
             exec:
               command:
-                - pgrep mono
+                - pgrep
+                - mono
               initialDelaySeconds: 10
               timeoutSeconds: 5
           resources:
