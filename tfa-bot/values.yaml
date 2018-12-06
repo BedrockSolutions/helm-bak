@@ -1,0 +1,15 @@
+---
+app:
+#  botUrl:
+container:
+#  resources:
+deployment:
+  replicas: 1
+factomd:
+  host: localhost
+  port: 8088
+image:
+  repository: bedrocksolutions/tfa-bot
+pod:
+  restartPolicy: Always
+...

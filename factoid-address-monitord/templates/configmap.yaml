@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "app.fullname" . }}
+  labels:
+    app: {{ template "app.name" . }}
+    chart: {{ template "app.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  config.json: |-
+    {
+      "factomdConfig": {
+        "host": "{{ .Values.factomd.host }}",
+        "port": "{{ .Values.factomd.port }}"
+      },
+      "addresses": [{
+        "address": "{{ .Values.app.address }}",
+        "bitcoinTaxKey": "{{ .Values.app.bitcoinTaxKey }}",
+        "bitcoinTaxSecret": "{{ .Values.app.bitcoinTaxSecret }}",
+        "currency": "{{ .Values.app.currency }}",
+        "nickname": "{{ .Values.app.nickname }}",
+        "recordCoinbaseReceipts": "{{ .Values.app.recordCoinbaseReceipts }}",
+        "recordNonCoinbaseReceipts": "{{ .Values.app.recordNonCoinbaseReceipts }}",
+        "saveToBitcoinTax": "{{ .Values.app.saveToBitcoinTax }}",
+        "saveToCsv": "{{ .Values.app.saveToCsv }}"
+      }]
+    }
+...

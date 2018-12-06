@@ -1,0 +1,29 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "app.name" . }}
+    chart: {{ template "app.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: {{ template "app.fullname" . }}
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "app.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "app.name" . }}
+    spec:
+      containers:
+        - name: {{ template "app.name" . }}
+          env:
+            - name: BOTURL
+              value: {{ .Values.app.botUrl | quote }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          resources:
+{{ .Values.container.resources | toYaml | indent 12 }}
+      restartPolicy: {{ .Values.pod.restartPolicy }}
