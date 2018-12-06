@@ -26,12 +26,12 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           livenessProbe:
             exec:
-              command: ["pgrep", "-cfx", "'mono TFA-Bot.exe'"]
+              command: pgrep -cfx "mono TFA-Bot.exe"
               initialDelaySeconds: 30
           readinessProbe:
             exec:
-              command: ["pgrep", "-cfx", "'mono TFA-Bot.exe'"]
-              initialDelaySeconds: 0
+              command: pgrep -cfx "mono TFA-Bot.exe"
+              initialDelaySeconds: 15
           resources:
 {{ .Values.container.resources | toYaml | indent 12 }}
       restartPolicy: {{ .Values.pod.restartPolicy }}
