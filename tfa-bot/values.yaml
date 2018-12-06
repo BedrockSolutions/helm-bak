@@ -1,7 +1,7 @@
 ---
-app:
+app: {}
 #  botUrl:
-container:
+container: {}
 #  resources:
 deployment:
   replicas: 1
