@@ -8,7 +8,7 @@ app:
   saveToBitcoinTax: false
   saveToCsv: true
 container:
-  resources:
+  resources: {}
 factomd:
   host: localhost
   port: 8088

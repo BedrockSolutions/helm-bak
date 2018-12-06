@@ -9,6 +9,7 @@ factomd:
   host: localhost
   port: 8088
 image:
+  pullPolicy: Always
   repository: bedrocksolutions/tfa-bot
 pod:
   restartPolicy: Always
