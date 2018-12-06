@@ -27,17 +27,13 @@ spec:
           livenessProbe:
             exec:
               command:
-                - "pgrep"
-                - "-cfx"
-                - "'mono TFA-Bot.exe'"
+                - pgrep mono
               initialDelaySeconds: 30
               timeoutSeconds: 5
           readinessProbe:
             exec:
               command:
-                - "pgrep"
-                - "-cfx"
-                - "'mono TFA-Bot.exe'"
+                - pgrep mono
               initialDelaySeconds: 10
               timeoutSeconds: 5
           resources:
