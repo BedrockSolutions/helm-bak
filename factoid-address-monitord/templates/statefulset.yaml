@@ -9,18 +9,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  containers:
-    - name: {{ .Chart.Name }}
-      image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-      resources:
-{{ .Values.container.resources | toYaml | indent 8 }}
-      volumeMounts:
-        - name: {{ template "app.fullname" . }}-config-volume
-          mountPath: {{ .Values.volumes.config.mountPath }}
-        - name: {{ template "app.fullname" . }}-db-volume
-          mountPath: {{ .Values.volumes.db.mountPath }}
   replicas: {{ .Values.statefulSet.replicas }}
-  restartPolicy: {{ .Values.pod.restartPolicy }}
   selector:
     matchLabels:
       app: {{ template "app.name" . }}
@@ -29,6 +18,18 @@ spec:
       labels:
         app: {{ template "app.name" . }}
         release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          resources:
+{{ .Values.container.resources | toYaml | indent 12 }}
+          volumeMounts:
+            - name: {{ template "app.fullname" . }}-config-volume
+              mountPath: {{ .Values.volumes.config.mountPath }}
+            - name: {{ template "app.fullname" . }}-db-volume
+              mountPath: {{ .Values.volumes.db.mountPath }}
+      restartPolicy: {{ .Values.pod.restartPolicy }}
   volumes:
     - name: {{ template "app.fullname" . }}-config-volume
       configMap:
