@@ -9,7 +9,7 @@ factomd:
   host: localhost
   port: 8088
 image:
-  repository: https://index.docker.io/v1/bedrocksolutions/tfa-bot
+  repository: index.docker.io/bedrocksolutions/tfa-bot
 pod:
   restartPolicy: Always
 ...
