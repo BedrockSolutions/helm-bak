@@ -29,7 +29,7 @@ spec:
               command:
                 - pgrep
                 - mono
-              initialDelaySeconds: 30
+              initialDelaySeconds: 60
               timeoutSeconds: 5
           readinessProbe:
             exec:
