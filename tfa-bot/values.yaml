@@ -16,7 +16,8 @@ factomd:
   port: 8088
 image:
   pullPolicy: Always
-  repository: bedrocksolutions/tfa-bot
+  repository: bedrocksolutions/tfa-bot-slim
+  tag: v1.12
 pod:
   restartPolicy: Always
 ...
