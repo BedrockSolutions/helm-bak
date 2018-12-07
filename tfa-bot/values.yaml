@@ -15,8 +15,9 @@ factomd:
   host: localhost
   port: 8088
 image:
+  name: tfa-bot-slim
+  namespace: bedrocksolutions
   pullPolicy: Always
-  repository: bedrocksolutions/tfa-bot-slim
   tag: v1.12
 pod:
   restartPolicy: Always
