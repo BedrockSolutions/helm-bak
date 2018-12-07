@@ -42,3 +42,4 @@ spec:
           resources:
 {{ .Values.container.resources | toYaml | indent 12 }}
       restartPolicy: {{ .Values.pod.restartPolicy }}
+      terminationGracePeriodSeconds: 5
