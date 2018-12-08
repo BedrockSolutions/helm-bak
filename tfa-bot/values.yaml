@@ -15,10 +15,10 @@ factomd:
   host: localhost
   port: 8088
 image:
-  name: tfa-bot-slim
+  name: tfa-bot
   namespace: bedrocksolutions
   pullPolicy: Always
-  tag: v1.12
+  tag: latest
 pod:
   restartPolicy: Always
 ...
