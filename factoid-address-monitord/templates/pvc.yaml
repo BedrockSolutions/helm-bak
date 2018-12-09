@@ -13,5 +13,7 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   resources:
-{{ .Values.pvc.resources | toYaml | indent 4 }}
+    requests:
+      storage: {{ .Values.persistentVolumeClaim.initialSize }}
+  storageClassName: {{ template "app.fullname" . }}
 ...

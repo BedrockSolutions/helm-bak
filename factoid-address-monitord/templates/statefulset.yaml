@@ -42,3 +42,6 @@ spec:
       persistentVolumeClaim:
         claimName: {{ template "app.fullname" . }}
 ...
+
+# todo: regional persistent disk
+# todo: storage class

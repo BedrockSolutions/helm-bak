@@ -25,14 +25,18 @@ image:
   namespace: bedrocksolutions
   pullPolicy: Always
   tag: latest
+persistentVolumeClaim:
+  initialSize: 10Gi
 pod:
   restartPolicy: Always
-pvc:
-  resources:
-    requests:
-      storage: 10Gi
 statefulSet:
   replicas: 1
+storageClass:
+  provisioner: kubernetes.io/gce-pd
+  parameters:
+    type: pd-standard
+    replication-type: regional-pd
+#  zones:
 volumes:
   config:
     mountPath: /home/node/app/config.json

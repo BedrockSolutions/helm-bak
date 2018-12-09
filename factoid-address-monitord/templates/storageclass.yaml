@@ -1,0 +1,14 @@
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: {{ template "app.fullname" . }}
+provisioner: {{ .Values.storageClass.provisioner }}
+parameters: {{ .Values.storageClass.parameters }}
+allowedTopologies:
+- matchLabelExpressions:
+  - key: failure-domain.beta.kubernetes.io/zone
+    values: {{ .Values.storageClass.zones }}
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+...
