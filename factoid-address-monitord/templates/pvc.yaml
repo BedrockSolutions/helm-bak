@@ -10,7 +10,6 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   accessModes: [ "ReadWriteOnce" ]
-  persistentVolumeReclaimPolicy: Retain
   resources:
     requests:
       storage: {{ .Values.persistentVolumeClaim.initialSize }}

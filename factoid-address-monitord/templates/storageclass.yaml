@@ -12,4 +12,5 @@ allowedTopologies:
     values: {{ .Values.storageClass.zones }}
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
 ...
