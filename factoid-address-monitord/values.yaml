@@ -36,6 +36,10 @@ storageClass:
   parameters:
     type: pd-standard
     replication-type: regional-pd
+    zones:
+      - us-west1-a
+      - us-west1-b
+      - us-west1-c
 #  zones:
 volumes:
   config:
