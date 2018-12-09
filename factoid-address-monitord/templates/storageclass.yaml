@@ -10,7 +10,8 @@ allowedTopologies:
 - matchLabelExpressions:
   - key: failure-domain.beta.kubernetes.io/zone
     values:
-{{ .Values.storageClass.zones | toYaml | indent 6 }}
+      - us-west1-a
+      - us-west1-b
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
 reclaimPolicy: Retain
