@@ -25,18 +25,20 @@ spec:
           resources:
 {{ .Values.container.resources | toYaml | indent 12 }}
           volumeMounts:
-            - name: foo
+            - name: config-volume
               mountPath: {{ .Values.volumes.config.mountPath }}
-            - name: {{ template "app.fullname" . }}-db-volume
+            - name: db-volume
               mountPath: {{ .Values.volumes.db.mountPath }}
       restartPolicy: {{ .Values.pod.restartPolicy }}
-  volumes:
-    - name: foo
-      configMap:
-        name: {{ template "app.fullname" . }}
-        items:
-        - key: config.json
-    - name: {{ template "app.fullname" . }}-db-volume
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ template "app.fullname" . }}
+            items:
+            - key: config.json
+  volumeClaimTemplates:
+    - metadata:
+        name: db-volume
       persistentVolumeClaim:
         claimName: {{ template "app.fullname" . }}
 ...
