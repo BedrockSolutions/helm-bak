@@ -11,6 +11,6 @@ allowedTopologies:
   - key: failure-domain.beta.kubernetes.io/zone
     values: {{ .Values.storageClass.zones }}
 allowVolumeExpansion: true
-volumeBindingMode: WaitForFirstConsumer
+volumeBindingMode: VolumeBindingImmediate
 reclaimPolicy: Retain
 ...
