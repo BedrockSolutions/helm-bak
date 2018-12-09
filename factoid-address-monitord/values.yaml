@@ -1,12 +1,14 @@
 ---
 app:
-  bitcoinTaxKey: ''
-  bitcoinTaxSecret: ''
+#  address:
+#  bitcoinTaxKey:
+#  bitcoinTaxSecret:
   currency: USD
+#  nickname:
   recordCoinbaseReceipts: true
   recordNonCoinbaseReceipts: false
-  saveToBitcoinTax: false
-  saveToCsv: true
+  saveToBitcoinTax: true
+  saveToCsv: false
 container:
   resources:
     requests:
@@ -19,8 +21,10 @@ factomd:
   host: localhost
   port: 8088
 image:
+  name: factoid-address-monitord
+  namespace: bedrocksolutions
   pullPolicy: Always
-  repository: bedrocksolutions/factoid-address-monitord
+  tag: latest
 pod:
   restartPolicy: Always
 pvc:
@@ -31,7 +35,7 @@ statefulSet:
   replicas: 1
 volumes:
   config:
-    mountPath: /home/node/app/config
+    mountPath: /home/node/app/config.json
   db:
     mountPath: /home/node/app/db
 ...
