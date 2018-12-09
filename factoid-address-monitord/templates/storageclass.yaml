@@ -4,7 +4,8 @@ apiVersion: storage.k8s.io/v1
 metadata:
   name: {{ template "app.fullname" . }}
 provisioner: {{ .Values.storageClass.provisioner }}
-parameters: {{ .Values.storageClass.parameters }}
+parameters:
+{{ .Values.storageClass.parameters | toYaml | indent 2 }}
 allowedTopologies:
 - matchLabelExpressions:
   - key: failure-domain.beta.kubernetes.io/zone
