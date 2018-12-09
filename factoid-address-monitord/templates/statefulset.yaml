@@ -25,13 +25,13 @@ spec:
           resources:
 {{ .Values.container.resources | toYaml | indent 12 }}
           volumeMounts:
-            - name: {{ template "app.fullname" . }}-config-volume
+            - name: foo
               mountPath: {{ .Values.volumes.config.mountPath }}
             - name: {{ template "app.fullname" . }}-db-volume
               mountPath: {{ .Values.volumes.db.mountPath }}
       restartPolicy: {{ .Values.pod.restartPolicy }}
   volumes:
-    - name: {{ template "app.fullname" . }}-config-volume
+    - name: foo
       configMap:
         name: {{ template "app.fullname" . }}
         items:
