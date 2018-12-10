@@ -53,5 +53,4 @@ spec:
           requests:
             storage: {{ .Values.persistentVolumeClaim.initialSize }}
         storageClassName: {{ template "app.fullname" . }}
-        volumeName: {{ template "app.fullname" . }}
 ...
