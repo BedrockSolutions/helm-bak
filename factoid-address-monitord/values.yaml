@@ -7,8 +7,8 @@ app:
 #  nickname:
   recordCoinbaseReceipts: true
   recordNonCoinbaseReceipts: false
-  saveToBitcoinTax: true
-  saveToCsv: false
+  saveToBitcoinTax: false
+  saveToCsv: true
 container:
   resources:
     requests:
