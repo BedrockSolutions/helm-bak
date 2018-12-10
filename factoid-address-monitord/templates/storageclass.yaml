@@ -5,10 +5,7 @@ metadata:
   name: {{ template "app.fullname" . }}
 provisioner: {{ .Values.storageClass.provisioner }}
 parameters:
-  type: {{ .Values.storageClass.diskType }}
-  replication-type: {{ .Values.storageClass.replicationType }}
-  zones:
-{{ .Values.storageClass.zones | toYaml | indent 4 }}
+{{ .Values.storageClass.parameters | toYaml | indent 2 }}
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
 reclaimPolicy: Retain
