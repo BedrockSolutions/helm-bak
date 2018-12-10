@@ -36,8 +36,6 @@ spec:
         - name: config-volume
           configMap:
             name: {{ template "app.fullname" . }}
-            items:
-            - key: config.json
   volumeClaimTemplates:
     - metadata:
         name: db-volume
