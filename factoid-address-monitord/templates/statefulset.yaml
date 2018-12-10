@@ -40,8 +40,5 @@ spec:
     - metadata:
         name: db-volume
       persistentVolumeClaim:
-        claimName: db-pvc
+        claimName: {{ template "app.fullname" . }}
 ...
-
-# todo: regional persistent disk
-# todo: storage class
