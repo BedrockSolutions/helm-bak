@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: fam-statefulset
+  name: statefulset
   labels:
     app: {{ template "app.name" . }}
     chart: {{ template "app.chart" . }}
@@ -33,7 +33,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: fam-configmap
+            name: configmap
             items:
             - key: config.json
   volumeClaimTemplates:
@@ -45,5 +45,5 @@ spec:
         resources:
           requests:
             storage: {{ .Values.persistentVolumeClaim.initialSize }}
-        storageClassName: fam-storageclass
+        storageClassName: storageclass
 ...
