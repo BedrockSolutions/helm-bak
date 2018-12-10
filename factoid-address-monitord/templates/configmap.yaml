@@ -12,8 +12,8 @@ data:
   config.json: |-
     {
       "factomdConfig": {
-        "host": "{{ .Values.factomd.host }}",
-        "port": "{{ .Values.factomd.port }}"
+        "factomdHost": "{{ .Values.factomd.host }}",
+        "factomdPort": "{{ .Values.factomd.port }}"
       },
       "addresses": [{
         "address": "{{ .Values.app.address }}",
