@@ -2,7 +2,7 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: {{ template "app.fullname" . }}
+  name: fam-storageclass
 provisioner: {{ .Values.storageClass.provisioner }}
 parameters:
 {{ .Values.storageClass.parameters | toYaml | indent 2 }}
