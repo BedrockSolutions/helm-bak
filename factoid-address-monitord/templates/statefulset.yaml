@@ -21,16 +21,16 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: failure-domain.beta.kubernetes.io/zone
-                operator: In
-                values:
-                - us-west1-a
-                - us-west1-b
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#            - matchExpressions:
+#              - key: failure-domain.beta.kubernetes.io/zone
+#                operator: In
+#                values:
+#                - us-west1-a
+#                - us-west1-b
       containers:
         - name: {{ template "app.fullname" . }}-container
           command:
@@ -48,6 +48,8 @@ spec:
             - name: db-volume
               mountPath: {{ .Values.volumes.db.mountPath }}
       restartPolicy: {{ .Values.pod.restartPolicy }}
+      securityContext:
+        fsGroup: 1000
       volumes:
         - name: config-volume
           configMap:
