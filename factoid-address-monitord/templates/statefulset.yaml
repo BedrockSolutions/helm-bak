@@ -17,10 +17,12 @@ spec:
     metadata:
       labels:
         app: {{ template "app.name" . }}
+        chart: {{ template "app.chart" . }}
         release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ template "app.fullname" }}
           image: "{{ .Values.image.namespace }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
           resources:
 {{ .Values.container.resources | toYaml | indent 12 }}
@@ -33,17 +35,23 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: configmap
+            name: {{ template "app.fullname" . }}
             items:
             - key: config.json
   volumeClaimTemplates:
     - metadata:
         name: db-volume
+        labels:
+          app: {{ template "app.name" . }}
+          chart: {{ template "app.chart" . }}
+          release: {{ .Release.Name }}
+          heritage: {{ .Release.Service }}
       spec:
         accessModes:
           - ReadWriteOnce
         resources:
           requests:
             storage: {{ .Values.persistentVolumeClaim.initialSize }}
-        storageClassName: storageclass
+        storageClassName: {{ template "app.fullname" . }}
+        volumeName: {{ template "app.fullname" . }}
 ...
