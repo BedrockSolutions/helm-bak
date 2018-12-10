@@ -22,7 +22,7 @@ spec:
         heritage: {{ .Release.Service }}
     spec:
       containers:
-        - name: {{ template "app.fullname" }}
+        - name: {{ template "app.fullname" . }}
           image: "{{ .Values.image.namespace }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
           resources:
 {{ .Values.container.resources | toYaml | indent 12 }}
