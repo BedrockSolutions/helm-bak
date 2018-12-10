@@ -39,6 +39,11 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: db-volume
-      persistentVolumeClaim:
-        claimName: {{ template "app.fullname" . }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.persistentVolumeClaim.initialSize }}
+        storageClassName: {{ template "app.fullname" . }}
 ...
