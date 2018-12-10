@@ -13,7 +13,7 @@ data:
     {
       "factomdConfig": {
         "factomdHost": "{{ .Values.factomd.host }}",
-        "factomdPort": "{{ .Values.factomd.port }}"
+        "factomdPort": {{ .Values.factomd.port }}
       },
       "addresses": [{
         "address": "{{ .Values.app.address }}",
@@ -21,10 +21,10 @@ data:
         "bitcoinTaxSecret": "{{ .Values.app.bitcoinTaxSecret }}",
         "currency": "{{ .Values.app.currency }}",
         "nickname": "{{ .Values.app.nickname }}",
-        "recordCoinbaseReceipts": "{{ .Values.app.recordCoinbaseReceipts }}",
-        "recordNonCoinbaseReceipts": "{{ .Values.app.recordNonCoinbaseReceipts }}",
-        "saveToBitcoinTax": "{{ .Values.app.saveToBitcoinTax }}",
-        "saveToCsv": "{{ .Values.app.saveToCsv }}"
+        "recordCoinbaseReceipts": {{ .Values.app.recordCoinbaseReceipts }},
+        "recordNonCoinbaseReceipts": {{ .Values.app.recordNonCoinbaseReceipts }},
+        "saveToBitcoinTax": {{ .Values.app.saveToBitcoinTax }},
+        "saveToCsv": {{ .Values.app.saveToCsv }}
       }]
     }
 ...
