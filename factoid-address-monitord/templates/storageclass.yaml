@@ -7,7 +7,7 @@ provisioner: {{ .Values.storageClass.provisioner }}
 parameters:
   type: {{ .Values.storageClass.diskType }}
   replication-type: {{ .Values.storageClass.replicationType }}
-  zones: {{ .Values.storageClass.zones }}
+  zones: {{ .Values.storageClass.zones | toYaml }}
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
 reclaimPolicy: Retain
