@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ template "app.fullname" . }}
+  name: {{ template "app.fullname" . }}-statefulset
   labels:
     app: {{ template "app.name" . }}
     chart: {{ template "app.chart" . }}
@@ -22,7 +22,7 @@ spec:
         heritage: {{ .Release.Service }}
     spec:
       containers:
-        - name: {{ template "app.fullname" . }}
+        - name: {{ template "app.fullname" . }}-container
           image: "{{ .Values.image.namespace }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
           resources:
 {{ .Values.container.resources | toYaml | indent 12 }}
@@ -35,7 +35,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ template "app.fullname" . }}
+            name: {{ template "app.fullname" . }}-configmap
   volumeClaimTemplates:
     - metadata:
         name: db-volume
@@ -50,5 +50,5 @@ spec:
         resources:
           requests:
             storage: {{ .Values.persistentVolumeClaim.initialSize }}
-        storageClassName: {{ template "app.fullname" . }}
+        storageClassName: {{ template "app.fullname" . }}-storageclass
 ...
