@@ -39,6 +39,8 @@ storageClass:
 volumes:
   config:
     mountPath: /home/node/app/config
+  csv:
+    mountPath: /home/node/app/csv
   db:
     mountPath: /home/node/app/db
 ...
