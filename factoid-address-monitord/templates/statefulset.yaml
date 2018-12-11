@@ -33,10 +33,10 @@ spec:
 #                - us-west1-b
       containers:
         - name: {{ template "app.fullname" . }}-container
-          command:
-            - tail
-            - -f
-            - /dev/null
+#          command:
+#            - tail
+#            - -f
+#            - /dev/null
           env:
             - name: BITCOIN_TAX_SECRET
               valueFrom:
