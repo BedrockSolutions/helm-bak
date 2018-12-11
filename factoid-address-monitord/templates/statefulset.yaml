@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: {{ template "app.fullname" . }}-container
-#          command:
+#          args:
 #            - tail
 #            - -f
 #            - /dev/null
