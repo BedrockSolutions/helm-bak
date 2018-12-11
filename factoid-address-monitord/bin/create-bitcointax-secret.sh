@@ -9,9 +9,9 @@ while [[ "$#" > 0 ]]; do case $1 in
   *) echo "Unknown parameter passed: $1"; exit 1;;
 esac; shift; done
 
-[ -z "secret" ] && echo "--secret is required" && exit 1;
+if [ -z "$secret" ]; then echo "--secret is required" && exit 1; fi
 
-if [ -z "secret_name" ]; then secret_name="factoid-address-monitord-secret"; fi
+if [ -z "$secret_name" ]; then secret_name="factoid-address-monitord-secret"; fi
 
 kubectl create secret generic \
   ${secret_name} \
