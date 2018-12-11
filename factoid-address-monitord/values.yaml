@@ -1,8 +1,8 @@
 ---
 app:
 #  address:
-  bitcoinTaxKey:
-  bitcoinTaxSecret: ${BITCOIN_TAX_SECRET}
+#  bitcoinTaxKey:
+#  bitcoinTaxSecret:
   currency: USD
 #  nickname:
   recordCoinbaseReceipts: true
@@ -10,6 +10,8 @@ app:
   saveToBitcoinTax: false
   saveToCsv: true
 container:
+  env:
+    bitcoinTaxSecretName: {{ template "app.fullname" . }}-secret
   resources:
     requests:
       memory: 96Mi

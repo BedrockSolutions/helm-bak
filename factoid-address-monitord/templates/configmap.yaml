@@ -18,7 +18,7 @@ data:
       "addresses": [{
         "address": "{{ .Values.app.address }}",
         "bitcoinTaxKey": "{{ .Values.app.bitcoinTaxKey }}",
-        "bitcoinTaxSecret": "{{ .Values.app.bitcoinTaxSecret }}",
+        "bitcoinTaxSecret": "{{ .Values.app.bitcoinTaxSecret | default "${BITCOIN_TAX_SECRET}" }}",
         "currency": "{{ .Values.app.currency }}",
         "nickname": "{{ .Values.app.nickname }}",
         "recordCoinbaseReceipts": {{ .Values.app.recordCoinbaseReceipts }},
