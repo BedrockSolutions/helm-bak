@@ -11,7 +11,7 @@ app:
   saveToCsv: true
 container:
   env:
-    bitcoinTaxSecretName: {{ template "app.fullname" . }}-secret
+    bitcoinTaxSecretName: factoid-address-monitord-secret
   resources:
     requests:
       memory: 96Mi
