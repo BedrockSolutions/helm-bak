@@ -4,10 +4,10 @@ app: {}
 container:
   resources:
     requests:
-      memory: "96Mi"
+      memory: "48Mi"
       cpu: "50m"
     limits:
-      memory: "256Mi"
+      memory: "96Mi"
       cpu: "100m"
 deployment:
   replicas: 1
