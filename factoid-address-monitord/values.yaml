@@ -38,7 +38,7 @@ storageClass:
   provisioner: kubernetes.io/gce-pd
 volumes:
   config:
-    mountPath: /home/node/app/config
+    mountPath: /home/node/app/conf
   csv:
     mountPath: /home/node/app/csv
   db:
