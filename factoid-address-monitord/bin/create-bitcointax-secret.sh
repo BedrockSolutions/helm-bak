@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -xe
 
 while [[ "$#" > 0 ]]; do case $1 in
   --secret) secret="${2}"; shift;;
