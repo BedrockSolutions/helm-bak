@@ -38,6 +38,7 @@ spec:
 #            - -f
 #            - /dev/null
           image: "{{ .Values.image.namespace }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           livenessProbe:
             exec:
               command:
