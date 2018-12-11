@@ -38,11 +38,6 @@ spec:
             - -f
             - /dev/null
           env:
-            - name: BITCOIN_TAX_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: factoid-address-monitord-secret
-                  key: bitcoinTaxKey
             - name: BITCOIN_TAX_SECRET
               valueFrom:
                 secretKeyRef:
