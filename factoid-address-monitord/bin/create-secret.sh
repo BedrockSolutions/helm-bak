@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -xe
+set -e
 
 while [[ "$#" > 0 ]]; do case $1 in
   --key) key="${2}"; shift;;
