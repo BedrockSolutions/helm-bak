@@ -21,22 +21,12 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
-#      affinity:
-#        nodeAffinity:
-#          requiredDuringSchedulingIgnoredDuringExecution:
-#            nodeSelectorTerms:
-#            - matchExpressions:
-#              - key: failure-domain.beta.kubernetes.io/zone
-#                operator: In
-#                values:
-#                - us-west1-a
-#                - us-west1-b
       containers:
         - name: {{ template "app.fullname" . }}-container
-#          command:
-#            - tail
-#            - -f
-#            - /dev/null
+          command:
+            - tail
+            - -f
+            - /dev/null
           env:
             - name: BITCOIN_TAX_SECRET
               valueFrom:
