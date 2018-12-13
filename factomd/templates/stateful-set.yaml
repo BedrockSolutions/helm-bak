@@ -1,0 +1,79 @@
+---
+apiVersion: apps/v1
+kind: Statefulset
+metadata:
+  labels:
+    app: {{ template "app.name" . }}
+    chart: {{ template "app.chart" .}}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "app.fullname" . }}
+spec:
+  replicas: {{ .Values.factomd.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "app.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "app.name" . }}
+    spec:
+      containers:
+      - name: {{ template "app.name" . }}
+      {{- with .Values.factomd}}
+        image: {{ .image }}:{{ .imageTag }}
+        ports:
+        - containerPort: 8088
+          name: api
+          protocol: TCP
+        - containerPort: 8090
+          name: control-panel
+          protocol: TCP
+        - containerPort: 8110
+          name: testnet
+          protocol: TCP
+        volumeMounts:
+        - name: keys
+          mountPath: /root/.factom/private/factomd.conf
+        - name: databse
+          mountPath: /root/.factom/m2
+        livenessProbe:
+          httpGet:
+            path: '/'
+            port: api
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: '/'
+            port: api
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
+            successThreshold: 1
+            timeoutSeconds: 5
+        resources:
+          {{- with .resources}}
+          limits:
+            cpu: {{.cpu}}
+            memory: {{.memory}}
+          requests:
+            cpu: {{.cpu}}
+            memory: {{.memory}}
+          {{- end}}
+      {{- end}}
+  {{- with .Values.factomd.persistentStorage}}
+  volumeClaimTemplates:
+  - metadata:
+      name: database
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClass: {{.storageClass}}
+      resources:
+        requests:
+          storage: {{.size}}
+  {{- end}}

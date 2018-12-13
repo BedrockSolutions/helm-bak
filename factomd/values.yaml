@@ -1,0 +1,11 @@
+---
+factomd:
+  image: factominc/factomd
+  imageTag: v6.0.1-alpine
+  persistentStorage:
+    size: 20Gi
+    storageClass: standard
+  replicaCount: 1
+  resources:
+    cpu: 1000m
+    memory: 2G
