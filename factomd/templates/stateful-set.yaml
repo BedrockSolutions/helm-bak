@@ -33,10 +33,12 @@ spec:
           name: testnet
           protocol: TCP
         volumeMounts:
-        - name: keys
-          mountPath: /root/.factom/private/factomd.conf
-        - name: databse
+        # - name: factomd-keys
+        #   mountPath: /root/.factom/private
+        - name: factomd-databse
           mountPath: /root/.factom/m2
+        - name: factomd-config
+          mountPath: /root/.factom/private/factomd.conf
         livenessProbe:
           httpGet:
             path: '/'
@@ -65,10 +67,14 @@ spec:
             memory: {{.memory}}
           {{- end}}
       {{- end}}
+      volumes:
+      - name: factomd-config
+        configMap:
+          name: {{ template "app.fullname" . }}-factomd-config
   {{- with .Values.factomd.persistentStorage}}
   volumeClaimTemplates:
   - metadata:
-      name: database
+      name: factomd-database
     spec:
       accessModes:
       - ReadWriteOnce
