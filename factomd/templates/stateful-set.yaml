@@ -21,6 +21,8 @@ spec:
       containers:
       - name: {{ template "app.name" . }}
       {{- with .Values.factomd}}
+        args:
+          - -config=/root/.factom/private/factomd.conf
         image: {{ .image }}:{{ .imageTag }}
         ports:
         - containerPort: 8088
