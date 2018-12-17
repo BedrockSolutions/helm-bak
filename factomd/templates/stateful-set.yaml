@@ -23,6 +23,7 @@ spec:
       {{- with .Values.factomd}}
         args:
           - -config=/root/.factom/private/factomd.conf
+          - -customnet=fct_community_test
         image: {{ .image }}:{{ .imageTag }}
         ports:
         - containerPort: 8088
