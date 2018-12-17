@@ -38,7 +38,7 @@ spec:
         - name: factomd-database
           mountPath: /root/.factom/m2
         - name: factomd-config
-          mountPath: /root/.factom/private/factomd.conf
+          mountPath: /root/.factom/private/
         livenessProbe:
           httpGet:
             path: '/'
