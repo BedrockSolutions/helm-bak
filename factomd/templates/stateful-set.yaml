@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Statefulset
+kind: StatefulSet
 metadata:
   labels:
     app: {{ template "app.name" . }}
@@ -71,15 +71,13 @@ spec:
       - name: factomd-config
         configMap:
           name: {{ template "app.fullname" . }}-factomd-config
-  {{- with .Values.factomd.persistentStorage}}
   volumeClaimTemplates:
   - metadata:
       name: factomd-database
     spec:
       accessModes:
       - ReadWriteOnce
-      storageClass: {{.storageClass}}
       resources:
         requests:
-          storage: {{.size}}
-  {{- end}}
+          storage: {{.Values.factomd.databaseDisk.size}}
+      storageClassName: {{ template "app.fullname" . }}-storageclass

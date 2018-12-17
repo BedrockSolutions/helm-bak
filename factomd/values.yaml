@@ -2,10 +2,14 @@
 factomd:
   image: factominc/factomd
   imageTag: v6.0.1-alpine
-  persistentStorage:
+  databaseDisk:
     size: 20Gi
-    storageClass: standard
   replicaCount: 1
   resources:
     cpu: 1000m
     memory: 2G
+storageClass:
+  parameters:
+    type: pd-ssd
+  provisioner: kubernetes.io/gce-pd
+...
