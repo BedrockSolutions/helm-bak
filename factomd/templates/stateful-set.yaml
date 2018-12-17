@@ -49,7 +49,7 @@ spec:
           periodSeconds: 10
         readinessProbe:
           tcpSocket:
-            port: 811o
+            port: 8110
           initialDelaySeconds: 120
           periodSeconds: 10
         resources:
