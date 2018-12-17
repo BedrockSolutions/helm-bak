@@ -35,7 +35,7 @@ spec:
         volumeMounts:
         # - name: factomd-keys
         #   mountPath: /root/.factom/private
-        - name: factomd-databse
+        - name: factomd-database
           mountPath: /root/.factom/m2
         - name: factomd-config
           mountPath: /root/.factom/private/factomd.conf
