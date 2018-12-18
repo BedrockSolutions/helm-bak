@@ -10,15 +10,10 @@ metadata:
   name: {{ template "app.fullname" . }}
 spec:
   ports:
-  - name: api
-    port: 8088
-    targetPort: api
-  - name: control-panel
-    port: 8090
-    targetPort: control-panel
-  - name: testnet
-    port: 8110
-    targetPort: testnet
+  {{- range $key, $value := .Values.service.ports }}
+    - name: {{ $key }}
+{{ toYaml $value | indent 6 }}
+  {{- end }}
   selector:
     app: {{ template "app.name" . }}
   type: NodePort

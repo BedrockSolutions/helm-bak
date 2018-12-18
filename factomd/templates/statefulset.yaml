@@ -22,8 +22,7 @@ spec:
       - name: {{ template "app.name" . }}
       {{- with .Values.factomd}}
         args:
-          - -config=/root/.factom/private/factomd.conf
-          - -customnet=fct_community_test
+{{ toYaml .args | indent 12 }}
         image: {{ .image }}:{{ .imageTag }}
         ports:
         - containerPort: 8088
@@ -36,8 +35,6 @@ spec:
           name: testnet
           protocol: TCP
         volumeMounts:
-        # - name: factomd-keys
-        #   mountPath: /root/.factom/private
         - name: factomd-database
           mountPath: /root/.factom/m2
         - name: factomd-config
