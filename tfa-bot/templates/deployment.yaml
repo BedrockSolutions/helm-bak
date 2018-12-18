@@ -22,9 +22,10 @@ spec:
         - name: {{ template "app.name" . }}
           env:
             - name: BOTURL
-              value: {{ .Values.app.botUrl | quote }}
-          image: {{ .Values.image.namespace }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+              value: {{ .Values.tfaBot.botUrl | quote }}
+          {{- with .Values.container}}
+          image: {{ .image }}:{{ .imageTag }}
+          imagePullPolicy: {{ .pullPolicy }}
           livenessProbe:
             exec:
               command:
@@ -40,6 +41,8 @@ spec:
               initialDelaySeconds: 5
               timeoutSeconds: 5
           resources:
-{{ .Values.container.resources | toYaml | indent 12 }}
-      restartPolicy: {{ .Values.pod.restartPolicy }}
+{{ .resources | toYaml | indent 12 }}
+          {{- end}}
+      restartPolicy: {{ .Values.deployment.restartPolicy }}
       terminationGracePeriodSeconds: 5
+...

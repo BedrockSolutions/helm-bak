@@ -19,7 +19,8 @@ factomd:
 persistentVolumeClaim:
   size: 20Gi
 
-replicas: 1
+statefulSet:
+  replicas: 1
 
 service:
   ports:

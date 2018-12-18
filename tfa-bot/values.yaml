@@ -1,7 +1,8 @@
 ---
-app: {}
-#  botUrl:
 container:
+  image: bedrocksolutions/tfa-bot
+  imageTag: latest
+  pullPolicy: always
   resources:
     requests:
       memory: 96Mi
@@ -9,16 +10,11 @@ container:
     limits:
       memory: 256Mi
       cpu: 100m
+
 deployment:
   replicas: 1
-factomd:
-  host: localhost
-  port: 8088
-image:
-  name: tfa-bot
-  namespace: bedrocksolutions
-  pullPolicy: Always
-  tag: latest
-pod:
   restartPolicy: Always
+
+tfaBot: {}
+#  botUrl:
 ...

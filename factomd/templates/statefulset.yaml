@@ -4,12 +4,12 @@ kind: StatefulSet
 metadata:
   labels:
     app: {{ template "app.name" . }}
-    chart: {{ template "app.chart" .}}
+    chart: {{ template "app.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
   name: {{ template "app.fullname" . }}
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: {{ .Values.statefulSet.replicas }}
   selector:
     matchLabels:
       app: {{ template "app.name" . }}
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: {{ template "app.name" . }}
-      {{- with .Values.container}}
+      {{- with .Values.container }}
         args:
 {{ toYaml .args | indent 12 }}
         image: {{ .image }}:{{ .imageTag }}
@@ -50,15 +50,15 @@ spec:
           initialDelaySeconds: 120
           periodSeconds: 10
         resources:
-          {{- with .resources}}
+          {{- with .resources }}
           limits:
-            cpu: {{.cpu}}
-            memory: {{.memory}}
+            cpu: {{ .cpu }}
+            memory: {{ .memory }}
           requests:
-            cpu: {{.cpu}}
-            memory: {{.memory}}
-          {{- end}}
-      {{- end}}
+            cpu: {{ .cpu }}
+            memory: {{ .memory }}
+          {{- end }}
+      {{- end }}
       volumes:
       - name: factomd-config
         configMap:

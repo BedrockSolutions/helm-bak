@@ -15,16 +15,18 @@ data:
         "host": "{{ .Values.factomd.host }}",
         "port": {{ .Values.factomd.port }}
       },
+      {{- with .Values.factoidAddressMonitord }}
       "addresses": [{
-        "address": "{{ .Values.app.address }}",
-        "bitcoinTaxKey": "{{ .Values.app.bitcoinTaxKey }}",
-        "bitcoinTaxSecret": "{{ .Values.app.bitcoinTaxSecret | default "${BITCOIN_TAX_SECRET}" }}",
-        "currency": "{{ .Values.app.currency }}",
-        "nickname": "{{ .Values.app.nickname }}",
-        "recordCoinbaseReceipts": {{ .Values.app.recordCoinbaseReceipts }},
-        "recordNonCoinbaseReceipts": {{ .Values.app.recordNonCoinbaseReceipts }},
-        "saveToBitcoinTax": {{ .Values.app.saveToBitcoinTax }},
-        "saveToCsv": {{ .Values.app.saveToCsv }}
+        "address": "{{ .address }}",
+        "bitcoinTaxKey": "{{ .bitcoinTaxKey }}",
+        "bitcoinTaxSecret": "{{ .bitcoinTaxSecret | default "${BITCOIN_TAX_SECRET}" }}",
+        "currency": "{{ .currency }}",
+        "nickname": "{{ .nickname }}",
+        "recordCoinbaseReceipts": {{ .recordCoinbaseReceipts }},
+        "recordNonCoinbaseReceipts": {{ .recordNonCoinbaseReceipts }},
+        "saveToBitcoinTax": {{ .saveToBitcoinTax }},
+        "saveToCsv": {{ .saveToCsv }}
       }]
+      {{- end }}
     }
 ...

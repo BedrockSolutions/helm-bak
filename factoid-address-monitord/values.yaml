@@ -1,5 +1,5 @@
 ---
-app:
+factoidAddressMonitord:
 #  address:
 #  bitcoinTaxKey:
 #  bitcoinTaxSecret:
@@ -9,40 +9,42 @@ app:
   recordNonCoinbaseReceipts: false
   saveToBitcoinTax: false
   saveToCsv: true
+
 container:
   env:
     bitcoinTaxSecretName: factoid-address-monitord-secret
+  image: bedrocksolutions/factoid-address-monitord
+  imageTag: latest
+  pullPolicy: Always
   resources:
     requests:
       memory: 96Mi
       cpu: 50m
     limits:
       memory: 256Mi
-      cpu: 100m
+  volumes:
+    config:
+      mountPath: /home/node/app/conf-template
+    csv:
+      mountPath: /home/node/app/csv
+    db:
+      mountPath: /home/node/app/db
+    cpu: 100m
+
 factomd:
   host: localhost
   port: 8088
-image:
-  name: factoid-address-monitord
-  namespace: bedrocksolutions
-  pullPolicy: Always
-  tag: latest
+
 persistentVolumeClaim:
   initialSize: 10Gi
-pod:
-  restartPolicy: Always
+
 statefulSet:
   replicas: 1
+  restartPolicy: Always
+
 storageClass:
   parameters:
     type: pd-standard
     replication-type: regional-pd
   provisioner: kubernetes.io/gce-pd
-volumes:
-  config:
-    mountPath: /home/node/app/conf-template
-  csv:
-    mountPath: /home/node/app/csv
-  db:
-    mountPath: /home/node/app/db
 ...
