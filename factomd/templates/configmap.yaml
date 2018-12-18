@@ -28,3 +28,4 @@ data:
     {{ end }}
     IdentityChainID						 	   = {{ .Values.factomd.authority.chainID | default "FA1E000000000000000000000000000000000000000000000000000000000000" }}
     ;ChangeAcksHeight              = 0
+...
