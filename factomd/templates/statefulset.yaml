@@ -9,7 +9,7 @@ metadata:
     release: {{ .Release.Name }}
   name: {{ template "app.fullname" . }}
 spec:
-  replicas: {{ .Values.factomd.replicaCount }}
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app: {{ template "app.name" . }}
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: {{ template "app.name" . }}
-      {{- with .Values.factomd}}
+      {{- with .Values.container}}
         args:
 {{ toYaml .args | indent 12 }}
         image: {{ .image }}:{{ .imageTag }}
@@ -71,5 +71,5 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: {{.Values.factomd.databaseDisk.size}}
+          storage: {{.Values.persistentVolumeClaim.size}}
       storageClassName: {{ template "app.fullname" . }}-storageclass

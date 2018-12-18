@@ -1,27 +1,8 @@
 ---
-configmap:
-  factomd.conf: |-
-    [app]
-    ControlPanelSetting            = readonly
-    ControlPanelPort               = 8090
-    LocalNetworkPort               = 8110
-    CustomNetworkPort              = 8110
-    CustomSpecialPeers             = ""
-    CustomBootstrapIdentity        = 8888882f5002ff95fce15d20ecb7e18ae6cc4d5849b372985d856b56e492ae0f
-    CustomBootstrapKey             = 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
-    CustomSeedURL                  = "https://raw.githubusercontent.com/FactomProject/communitytestnet/master/seeds/testnetseeds.txt"
-    DirectoryBlockInSeconds        = 600
-    ExchangeRateAuthorityPublicKey = 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
-    network = CUSTOM
-    IdentityChainID						 	   = FA1E000000000000000000000000000000000000000000000000000000000000
-    ;ChangeAcksHeight              = 0
-
-factomd:
+container:
   args:
     - -config=/root/.factom/private/factomd.conf
     - -customnet=fct_community_test
-  databaseDisk:
-    size: 20Gi
   image: factominc/factomd
   imageTag: v6.0.1-alpine
   network: testnet
@@ -29,6 +10,16 @@ factomd:
   resources:
     cpu: 1000m
     memory: 2G
+
+factomd:
+  testnet: true
+  authority:
+    chainID: ''
+
+persistentVolumeClaim:
+  size: 20Gi
+
+replicas: 1
 
 service:
   ports:
