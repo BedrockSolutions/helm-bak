@@ -3,70 +3,83 @@ container:
   image: factominc/factomd
   imageTag: v6.0.1-alpine
   resources:
-    cpu: 1000m
-    memory: 2G
+    limits:
+      cpu: 1000m
+      memory: 2G
+    requests:
+      cpu: 1000m
+      memory: 2G
 
 factomd:
-  network: mainnet
-  overrides: {}
+  network: testnet
+  overrides:
+    args: {}
+    config: {}
 
-  argNames:
-    global:
-      configFilePath: config
-      faultTimeout: faulttimeout
-      startDelay: startdelay
-    mainnet: {}
-    testnet:
-      customNet: customnet
+  args:
+    defaults:
+      global:
+        configFilePath: /root/.factom/private/factomd.conf
+        faultTimeout: 120
+        startDelay: 600
+      mainnet: {}
+      testnet:
+        customNet: fct_community_test
 
-  configNames:
-    global:
-      apiPort: PortNumber
-      changeAcksHeight: ChangeAcksHeight
-      controlPanelPort: ControlPanelPort
-      controlPanelSetting: ControlPanelSetting
-      directoryBlockInSeconds: DirectoryBlockInSeconds
-      exchangeRateAuthorityPublicKey: ExchangeRateAuthorityPublicKey
-      identityChainID: IdentityChainID
-      localServerPrivateKey: LocalServerPrivKey
-      localServerPublicKey: LocalServerPublicKey
-      network: Network
-    mainnet:
-      p2pPort: MainNetworkPort
-      seedUrl: MainSeedURL
-      specialPeers: MainSpecialPeers
-    testnet:
-      bootstrapIdentity: CustomBootstrapIdentity
-      bootstrapKey: CustomBootstrapKey
-      p2pPort: CustomNetworkPort
-      seedUrl: CustomSeedURL
-      specialPeers: CustomSpecialPeers
+    names:
+      global:
+        configFilePath: config
+        faultTimeout: faulttimeout
+        startDelay: startdelay
+      mainnet: {}
+      testnet:
+        customNet: customnet
 
-  defaults:
-    global:
-      apiPort: 8088
-      configFilePath: /root/.factom/private/factomd.conf
-      faultTimeout: 120
-      startDelay: 600
-      changeAcksHeight: 0
-      controlPanelPort: 8090
-      controlPanelSetting: readonly
-      identityChainID: FA1E000000000000000000000000000000000000000000000000000000000000
-      localServerPrivateKey: ""
-      localServerPublicKey: ""
-    mainnet:
-      p2pPort: 8108
-      specialPeers: "\"52.17.183.121:8108 52.17.153.126:8108 52.19.117.149:8108 52.18.72.212:8108\""
-      network: MAIN
-    testnet:
-      bootstrapIdentity: 8888882f5002ff95fce15d20ecb7e18ae6cc4d5849b372985d856b56e492ae0f
-      bootstrapKey: 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
-      customNet: fct_community_test
-      directoryBlockInSeconds: 600
-      exchangeRateAuthorityPublicKey: 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
-      network: CUSTOM
-      p2pPort: 8110
-      seedUrl: https://raw.githubusercontent.com/FactomProject/communitytestnet/master/seeds/testnetseeds.txt
+  config:
+    defaults:
+      global:
+        apiPort: 8088
+        changeAcksHeight: 0
+        controlPanelPort: 8090
+        controlPanelSetting: readonly
+        identityChainID: FA1E000000000000000000000000000000000000000000000000000000000000
+        localServerPrivateKey: ""
+        localServerPublicKey: ""
+      mainnet:
+        p2pPort: 8108
+        specialPeers: "\"52.17.183.121:8108 52.17.153.126:8108 52.19.117.149:8108 52.18.72.212:8108\""
+        network: MAIN
+      testnet:
+        bootstrapIdentity: 8888882f5002ff95fce15d20ecb7e18ae6cc4d5849b372985d856b56e492ae0f
+        bootstrapKey: 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
+        directoryBlockInSeconds: 600
+        exchangeRateAuthorityPublicKey: 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
+        network: CUSTOM
+        p2pPort: 8110
+        seedUrl: https://raw.githubusercontent.com/FactomProject/communitytestnet/master/seeds/testnetseeds.txt
+
+    names:
+      global:
+        apiPort: PortNumber
+        changeAcksHeight: ChangeAcksHeight
+        controlPanelPort: ControlPanelPort
+        controlPanelSetting: ControlPanelSetting
+        directoryBlockInSeconds: DirectoryBlockInSeconds
+        exchangeRateAuthorityPublicKey: ExchangeRateAuthorityPublicKey
+        identityChainID: IdentityChainID
+        localServerPrivateKey: LocalServerPrivKey
+        localServerPublicKey: LocalServerPublicKey
+        network: Network
+      mainnet:
+        p2pPort: MainNetworkPort
+        seedUrl: MainSeedURL
+        specialPeers: MainSpecialPeers
+      testnet:
+        bootstrapIdentity: CustomBootstrapIdentity
+        bootstrapKey: CustomBootstrapKey
+        p2pPort: CustomNetworkPort
+        seedUrl: CustomSeedURL
+        specialPeers: CustomSpecialPeers
 
 persistentVolumeClaim:
   size: 20Gi

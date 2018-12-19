@@ -35,35 +35,41 @@
 {{- end -}}
 
 {{/*
+  Lookup the command argument name, given both the factomd object and the key
+*/}}
+{{- define "factomd.argKey" -}}
+{{- $key := .key -}}
+{{- with .factomd -}}
+{{- $global := .args.names.global -}}
+{{- $network := index .args.names .network -}}
+{{- $argName := index (merge $network $global) $key -}}
+{{- required (printf "No argument name was found for key '%s'" $key) $argName -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
   Lookup the confguration file setting name, given both the factomd object and the key
 */}}
 {{- define "factomd.configKey" -}}
-{{- $global := .factomd.configNames.global -}}
-{{- $network := index .factomd.configNames .factomd.network -}}
-{{- $configKey := index (merge $global $network) .key -}}
-{{- required (printf "No configuration setting name was found for key '%s'" .key) $configKey -}}
+{{- $key := .key -}}
+{{- with .factomd -}}
+{{- $global := .config.names.global -}}
+{{- $network := index .config.names .network -}}
+{{- $configName := index (merge $network $global) $key -}}
+{{- required (printf "No configuration setting name was found for key '%s'" $key) $configName -}}
+{{- end -}}
 {{- end -}}
 
 {{/*
-  Lookup the confguration file setting value, given both the Values object and the Key name
+  Lookup the confguration file setting value, given the factomd object and the key
 */}}
 {{- define "factomd.configValue" -}}
-{{- $defaults := .Values.factomd.defaults -}}
-{{- $overrides := .Values.factomd.overrides -}}
-{{- $global := $defaults.global -}}
-{{- $network := index $defaults .Values.factomd.network -}}
-{{- $merged := merge $overrides $global $network -}}
-{{- index $merged .key -}}
+{{- $key := .key -}}
+{{- with .factomd -}}
+{{- $global := .config.defaults.global -}}
+{{- $network := index .config.defaults .network -}}
+{{- $configValue := index (merge .overrides.config $network $global) $key -}}
+{{- required (printf "No configuration setting value was found for key '%s'" $key) $configValue -}}
 {{- end -}}
-
-{{/*
-  Lookup all confguration file settings
-*/}}
-{{- define "factomd.configValues" -}}
-{{- $defaults := .Values.factomd.defaults -}}
-{{- $overrides := .Values.factomd.overrides -}}
-{{- $global := $defaults.global -}}
-{{- $network := index $defaults .Values.factomd.network -}}
-{{- merge $overrides $global $network -}}
 {{- end -}}
 ...

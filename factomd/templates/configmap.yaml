@@ -12,11 +12,13 @@ data:
   factomd.conf: |-
 [app]
 {{- with .Values.factomd -}}
-{{- $merged := merge .overrides .defaults.global (index .defaults .network) -}}
 {{- $factomd := . -}}
-{{- range $key, $value := $merged }}
-{{- if $value -}}
-{{ include "factomd.configKey" (dict "factomd" $factomd "key" $key) }}={{ $value }}
+{{- $overrides := .overrides.config -}}
+{{- $global := .config.defaults.global -}}
+{{- $network := index .config.defaults .network -}}
+{{- range $key, $value := (merge $overrides $network $global) }}
+{{- if $value }}
+{{ include "factomd.configKey" (dict "factomd" $factomd "key" $key) }}={{ $value -}}
 {{ end -}}
 {{- end -}}
 {{- end }}
