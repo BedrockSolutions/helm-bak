@@ -7,36 +7,32 @@ container:
     memory: 2G
 
 factomd:
-  args:
-    - -config=/root/.factom/private/factomd.conf
+  apiPort: 8088
+#  args:  # override to add additional command args
   changeAcksHeight: 0
-  identity:
-    chainID: FA1E000000000000000000000000000000000000000000000000000000000000
-  #  privateKey:
-  #  publicKey:
+#  configFreeForm: # use to add free form text to conf file
+  controlPanelPort: 8090
+  configFilePath: /root/.factom/private/factomd.conf
+  identityChainID: FA1E000000000000000000000000000000000000000000000000000000000000
+#  localServerPrivateKey:
+#  localServerPublicKey:
   network: mainnet # or testnet
   networks:
     mainnet:
-      ports:
-        p2p: 8018
+      p2pPort: 8018
       specialPeers:
         - 52.17.183.121:8108
         - 52.17.153.126:8108
         - 52.19.117.149:8108
         - 52.18.72.212:8108
     testnet:
-      args:
-        - -customnet=fct_community_test
       bootstrapIdentity: 8888882f5002ff95fce15d20ecb7e18ae6cc4d5849b372985d856b56e492ae0f
       bootstrapKey: 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
+      customNet: fct_community_test
       directoryBlockInSeconds: 600
       exchangeRateAuthorityPublicKey: 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
-      ports:
-        p2p: 8110
+      p2pPort: 8110
       seedUrl: https://raw.githubusercontent.com/FactomProject/communitytestnet/master/seeds/testnetseeds.txt
-  ports:
-    api: 8088
-    controlPanel: 8090
 
 persistentVolumeClaim:
   size: 20Gi

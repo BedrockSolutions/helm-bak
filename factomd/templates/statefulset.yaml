@@ -32,7 +32,7 @@ spec:
           name: control-panel
           protocol: TCP
         - containerPort: 8110
-          name: testnet
+          name: p2p
           protocol: TCP
         volumeMounts:
         - name: factomd-database
