@@ -1,41 +1,48 @@
 ---
 container:
-  args:
-    - -config=/root/.factom/private/factomd.conf
-    - -customnet=fct_community_test
   image: factominc/factomd
   imageTag: v6.0.1-alpine
-  network: testnet
-  replicaCount: 1
   resources:
     cpu: 1000m
     memory: 2G
 
 factomd:
-  testnet: true
-  authority:
-    chainID: ''
+  args:
+    - -config=/root/.factom/private/factomd.conf
+  changeAcksHeight: 0
+  identity:
+    chainID: FA1E000000000000000000000000000000000000000000000000000000000000
+  #  privateKey:
+  #  publicKey:
+  network: mainnet # or testnet
+  networks:
+    mainnet:
+      ports:
+        p2p: 8018
+      specialPeers:
+        - 52.17.183.121:8108
+        - 52.17.153.126:8108
+        - 52.19.117.149:8108
+        - 52.18.72.212:8108
+    testnet:
+      args:
+        - -customnet=fct_community_test
+      bootstrapIdentity: 8888882f5002ff95fce15d20ecb7e18ae6cc4d5849b372985d856b56e492ae0f
+      bootstrapKey: 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
+      directoryBlockInSeconds: 600
+      exchangeRateAuthorityPublicKey: 58cfccaa48a101742845df3cecde6a9f38037030842d34d0eaa76867904705ae
+      ports:
+        p2p: 8110
+      seedUrl: https://raw.githubusercontent.com/FactomProject/communitytestnet/master/seeds/testnetseeds.txt
+  ports:
+    api: 8088
+    controlPanel: 8090
 
 persistentVolumeClaim:
   size: 20Gi
 
 statefulSet:
   replicas: 1
-
-service:
-  ports:
-    api:
-      port: 8088
-      targetPort: api
-      nodePort: 30088
-    control-panel:
-      port: 8090
-      targetPort: control-panel
-      nodePort: 30090
-    testnet:
-      port: 8110
-      targetPort: testnet
-      nodePort: 30110
 
 storageClass:
   parameters:
