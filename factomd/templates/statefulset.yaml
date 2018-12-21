@@ -7,7 +7,7 @@ metadata:
     chart: {{ template "app.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "app.fullname" . }}
+  name: {{ template "app.fullname" . }}-ss
 spec:
   replicas: {{ .Values.statefulSet.replicas }}
   selector:
@@ -19,16 +19,15 @@ spec:
         app: {{ template "app.name" . }}
     spec:
       containers:
-        - name: {{ template "app.name" . }}
-          args:
-{{- with .Values.factomd -}}
-{{- $factomd := . -}}
-{{- $merged := merge .overrides.args .args.defaults.global (index .args.defaults .network) -}}
+      - name: {{ template "app.name" . }}
+        args:
+{{- $f := .Values.factomd }}
+{{- $merged := merge $f.args $f._args.defaults.global (index $f._args.defaults $f.network) }}
 {{- range $key, $value := $merged }}
 {{- if $value }}
-{{ printf "- \"-%s=%s\"" (include "factomd.argKey" (dict "factomd" $factomd "key" $key)) (toString $value) | indent 12 -}}
-{{ end -}}
-{{- end -}}
+{{- $argName := include "factomd.argKey" (dict "factomd" $f "key" $key) }}
+{{ printf "- \"-%s=%s\"" $argName (toString $value) | indent 8 }}
+{{- end }}
 {{- end }}
         image: {{ .Values.container.image }}:{{ .Values.container.imageTag }}
         livenessProbe:
@@ -37,15 +36,11 @@ spec:
           initialDelaySeconds: 120
           periodSeconds: 10
         ports:
-          - containerPort: {{ include "factomd.configValue" (dict "factomd" .Values.factomd "key" "apiPort") }}
-            name: api
-            protocol: TCP
-          - containerPort: {{ include "factomd.configValue" (dict "factomd" .Values.factomd "key" "controlPanelPort") }}
-            name: control-panel
-            protocol: TCP
-          - containerPort: {{ include "factomd.configValue" (dict "factomd" .Values.factomd "key" "p2pPort") }}
-            name: p2p
-            protocol: TCP
+{{- range $service := .Values.services }}
+        - containerPort: {{ include "factomd.configValue" (dict "factomd" $.Values.factomd "key" $service.configPortName) }}
+          name: {{ $service.name }}
+          protocol: TCP
+{{- end }}
         readinessProbe:
           tcpSocket:
             port: {{ include "factomd.configValue" (dict "factomd" .Values.factomd "key" "p2pPort") }}
@@ -54,14 +49,14 @@ spec:
         resources:
 {{ toYaml .Values.container.resources | indent 10 }}
         volumeMounts:
-          - name: factomd-database
-            mountPath: /root/.factom/m2
-          - name: factomd-config
-            mountPath: /root/.factom/private
+        - name: factomd-database
+          mountPath: /root/.factom/m2
+        - name: factomd-config
+          mountPath: {{ include "factomd.argValue" (dict "factomd" .Values.factomd "key" "configFilePath") | dir }}
       volumes:
       - name: factomd-config
         configMap:
-          name: {{ template "app.fullname" . }}-factomd-config
+          name: {{ template "app.fullname" . }}-cfg
   volumeClaimTemplates:
   - metadata:
       name: factomd-database
@@ -71,5 +66,5 @@ spec:
       resources:
         requests:
           storage: {{ .Values.persistentVolumeClaim.size }}
-      storageClassName: {{ template "app.fullname" . }}-storageclass
+      storageClassName: {{ template "app.fullname" . }}-sc
 ...

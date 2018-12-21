@@ -1,4 +1,6 @@
 ---
+cloudProvider: gcp
+
 container:
   image: factominc/factomd
   imageTag: v6.0.1-alpine
@@ -11,12 +13,11 @@ container:
       memory: 2G
 
 factomd:
+  args: {}
+  config: {}
   network: testnet
-  overrides:
-    args: {}
-    config: {}
 
-  args:
+  _args:
     defaults:
       global:
         configFilePath: /root/.factom/private/factomd.conf
@@ -35,7 +36,7 @@ factomd:
       testnet:
         customNet: customnet
 
-  config:
+  _config:
     defaults:
       global:
         apiPort: 8088
@@ -84,11 +85,17 @@ factomd:
 persistentVolumeClaim:
   size: 20Gi
 
+ports:
+- name: api
+  configPortName: apiPort
+  type: LoadBalancer
+- name: control-panel
+  configPortName: controlPanelPort
+  type: NodePort
+- name: p2p
+  configPortName: p2pPort
+  type: LoadBalancer
+
 statefulSet:
   replicas: 1
-
-storageClass:
-  parameters:
-    type: pd-ssd
-  provisioner: kubernetes.io/gce-pd
 ...

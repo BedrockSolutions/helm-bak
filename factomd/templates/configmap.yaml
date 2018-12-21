@@ -2,24 +2,21 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "app.fullname" . }}-factomd-config
+  name: {{ template "app.fullname" . }}-cfg
   labels:
     app: {{ template "app.name" . }}
     chart: {{ template "app.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-  factomd.conf: |-
-[app]
-{{- with .Values.factomd -}}
-{{- $factomd := . -}}
-{{- $overrides := .overrides.config -}}
-{{- $global := .config.defaults.global -}}
-{{- $network := index .config.defaults .network -}}
-{{- range $key, $value := (merge $overrides $network $global) }}
-{{- if $value }}
-{{ include "factomd.configKey" (dict "factomd" $factomd "key" $key) }}={{ $value -}}
+{{ $f := .Values.factomd -}}
+{{- include "factomd.argValue" (dict "factomd" $f "key" "configFilePath") | base | quote | indent 2 -}}: |-
+    [app]
+{{ $merged := merge $f.config (index $f._config.defaults $f.network) $f._config.defaults.global -}}
+{{- range $key, $value := $merged -}}
+{{- if $value -}}
+{{- $configName := include "factomd.configKey" (dict "factomd" $f "key" $key) -}}
+{{- printf "%s=%s" $configName (toString $value) | indent 4 }}
 {{ end -}}
 {{- end -}}
-{{- end }}
 ...
