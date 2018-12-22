@@ -53,7 +53,7 @@ spec:
         - name: factomd-database
           mountPath: /home/factomd/.factom/m2
         - name: factomd-config
-          mountPath: /home/factomd/.factom/private
+          mountPath: /home/factomd/.factom/private-template
       volumes:
       - name: factomd-config
         configMap:
