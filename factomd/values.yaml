@@ -2,8 +2,8 @@
 cloudProvider: gcp
 
 container:
-  image: factominc/factomd
-  imageTag: v6.1.0-alpine
+  image: bedrocksolutions/factomd
+  imageTag: latest
   resources:
     limits:
       cpu: 1000m
