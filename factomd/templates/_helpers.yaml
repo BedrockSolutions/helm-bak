@@ -86,4 +86,17 @@
 {{- required (printf "No configuration setting value was found for key '%s'" $key) $configValue -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+  Lookup the confguration file default, given the factomd object and the key
+*/}}
+{{- define "factomd.configDefault" -}}
+{{- $key := .key -}}
+{{- with .factomd -}}
+{{- $global := ._config.defaults.global -}}
+{{- $network := index ._config.defaults .network -}}
+{{- $configValue := index (merge $network $global) $key -}}
+{{- required (printf "No configuration default was found for key '%s'" $key) $configValue -}}
+{{- end -}}
+{{- end -}}
 ...
