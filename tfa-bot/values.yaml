@@ -15,6 +15,8 @@ deployment:
   replicas: 1
   restartPolicy: Always
 
-tfaBot: {}
-#  botUrl:
+# This is the only value that must be overridden
+tfaBot: {
+#  botUrl: https://url.to.google.sheet.conf
+}
 ...
