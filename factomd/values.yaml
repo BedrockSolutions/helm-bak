@@ -3,7 +3,7 @@ cloudProvider: gcp
 
 container:
   image: factominc/factomd
-  imageTag: v6.0.1-alpine
+  imageTag: v6.1.0-alpine
   resources:
     limits:
       cpu: 1000m
@@ -21,7 +21,6 @@ factomd:
   _args:
     defaults:
       global:
-        configFilePath: /root/.factom/private/factomd.conf
         faultTimeout: 120
         startDelay: 600
       mainnet: {}
@@ -30,7 +29,6 @@ factomd:
 
     names:
       global:
-        configFilePath: config
         faultTimeout: faulttimeout
         startDelay: startdelay
       mainnet: {}
