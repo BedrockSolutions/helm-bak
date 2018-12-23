@@ -20,7 +20,10 @@ spec:
     spec:
       containers:
       - name: {{ template "app.name" . }}
-        command: tail -f /dev/null
+        command:
+          - tail
+          - -f
+          - /dev/null
 #        args:
 #{{- $f := .Values.factomd }}
 #{{- $merged := merge $f.args $f._args.defaults.global (index $f._args.defaults $f.network) }}
