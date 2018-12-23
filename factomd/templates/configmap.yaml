@@ -10,5 +10,4 @@ metadata:
     heritage: {{ .Release.Service }}
 data:
   "factomd.conf": |-
-{{- include "factomd.conf" . -}}
-...
+{{- include "factomd.conf" . | indent 4 -}}
