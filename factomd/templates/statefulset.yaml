@@ -20,19 +20,19 @@ spec:
     spec:
       containers:
       - name: {{ template "app.name" . }}
-        command:
-          - tail
-          - -f
-          - /dev/null
-#        args:
-#{{- $f := .Values.factomd }}
-#{{- $merged := merge $f.args $f._args.defaults.global (index $f._args.defaults $f.network) }}
-#{{- range $key, $value := $merged }}
-#{{- if $value }}
-#{{- $argName := include "factomd.argKey" (dict "factomd" $f "key" $key) }}
-#{{ printf "- \"-%s=%s\"" $argName (toString $value) | indent 8 }}
-#{{- end }}
-#{{- end }}
+#        command:
+#          - tail
+#          - -f
+#          - /dev/null
+        args:
+{{- $f := .Values.factomd }}
+{{- $merged := merge $f.args $f._args.defaults.global (index $f._args.defaults $f.network) }}
+{{- range $key, $value := $merged }}
+{{- if $value }}
+{{- $argName := include "factomd.argKey" (dict "factomd" $f "key" $key) }}
+{{ printf "- \"-%s=%s\"" $argName (toString $value) | indent 8 }}
+{{- end }}
+{{- end }}
         image: {{ .Values.container.image }}:{{ .Values.container.imageTag }}
         livenessProbe:
           tcpSocket:
