@@ -21,7 +21,6 @@ spec:
       containers:
       - name: {{ template "app.name" . }}
         args:
-        - "-config=/home/factomd/.factom/private/factomd.conf"
 {{- $f := .Values.factomd }}
 {{- $merged := merge $f.args $f._args.defaults.global (index $f._args.defaults $f.network) }}
 {{- range $key, $value := $merged }}
