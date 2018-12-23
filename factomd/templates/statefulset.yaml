@@ -56,7 +56,7 @@ spec:
         - name: factomd-database
           mountPath: /home/factomd/.factom/m2
         - name: factomd-config
-          mountPath: /home/factomd/.factom/private-template
+          mountPath: /home/factomd/.factom/private
       securityContext:
         fsGroup: 1000
       volumes:
