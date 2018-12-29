@@ -10,7 +10,7 @@
 {{ $comment := "" -}}
 {{- if not $value -}}
 {{- $comment = "; " -}}
-{{- else if eq $f.role "follower" -}}
+{{- else if not $f.isAuthority -}}
 {{- if eq $key "identityChainID" -}}
 {{- $value = include "factomd.configDefault" (dict "factomd" $f "key" "identityChainID") -}}
 {{- else if or (eq $key "localServerPrivateKey") (eq $key "localServerPublicKey") -}}

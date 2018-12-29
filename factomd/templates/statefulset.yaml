@@ -1,3 +1,4 @@
+{{- $f := .Values.factomd }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -13,32 +14,41 @@ spec:
   selector:
     matchLabels:
       app: {{ template "app.name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
         app: {{ template "app.name" . }}
+        chart: {{ template "app.chart" . }}
+        release: {{ .Release.Name }}
     spec:
       containers:
       - name: {{ template "app.name" . }}
-#        command:
-#          - tail
-#          - -f
-#          - /dev/null
         args:
-{{- $f := .Values.factomd }}
 {{- $merged := merge $f.args $f._args.defaults.global (index $f._args.defaults $f.network) }}
 {{- range $key, $value := $merged }}
-{{- if $value }}
+{{- if $value | kindOf | eq "invalid" | not }}
 {{- $argName := include "factomd.argKey" (dict "factomd" $f "key" $key) }}
 {{ printf "- \"-%s=%s\"" $argName (toString $value) | indent 8 }}
 {{- end }}
 {{- end }}
+{{- $publicKey := include "factomd.configValue" (dict "factomd" $f "key" "localServerPublicKey" "allowEmpty" true) -}}
+{{- if $publicKey }}
+        env:
+        - name: LOCAL_SERVER_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-secret
+              key: localServerPrivateKey
+{{- end }}
         image: {{ .Values.container.image }}:{{ .Values.container.imageTag }}
         livenessProbe:
-          tcpSocket:
-            port: {{ include "factomd.configValue" (dict "factomd" .Values.factomd "key" "p2pPort") }}
-          initialDelaySeconds: 120
-          periodSeconds: 10
+          exec:
+            command:
+              - pgrep
+              - factomd
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
         ports:
 {{- range $service := .Values.services }}
         - containerPort: {{ include "factomd.configValue" (dict "factomd" $.Values.factomd "key" $service.configPortName) }}
@@ -46,10 +56,12 @@ spec:
           protocol: TCP
 {{- end }}
         readinessProbe:
-          tcpSocket:
-            port: {{ include "factomd.configValue" (dict "factomd" .Values.factomd "key" "p2pPort") }}
-          initialDelaySeconds: 120
-          periodSeconds: 10
+          exec:
+            command:
+              - pgrep
+              - factomd
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
         resources:
 {{ toYaml .Values.container.resources | indent 10 }}
         volumeMounts:
@@ -66,6 +78,11 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: factomd-database
+      labels:
+        app: {{ template "app.name" . }}
+        chart: {{ template "app.chart" . }}
+        heritage: {{ .Release.Service }}
+        release: {{ .Release.Name }}
     spec:
       accessModes:
       - ReadWriteOnce

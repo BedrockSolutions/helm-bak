@@ -1,22 +1,52 @@
 ---
+# Set to the cloud provider. Currently, only 'gcp' is supported.
 cloudProvider: gcp
 
+# Docker factomd container-related configuration
 container:
   image: bedrocksolutions/factomd
   imageTag: latest
   resources:
     limits:
       cpu: 1000m
-      memory: 2G
+      memory: 4G
     requests:
-      cpu: 1000m
+      cpu: 500m
       memory: 2G
 
 factomd:
+
+  # A dict of arguments passed to the factomd executable.
+  #
+  # Valid keys are:
+  #
+  #   customNet <-- testnet only
+  #   faultTimeout
+  #   startDelay
   args: {}
+
+  # A dict of configuration file parameters.
+  #
+  # Valid keys are:
+  #
+  #   apiPort
+  #   bootstrapIdentity <-- testnet only
+  #   bootstrapKey <-- testnet only
+  #   changeAcksHeight
+  #   controlPanelPort
+  #   controlPanelPortSetting
+  #   directoryBlockInSeconds
+  #   exchangeRateAuthorityPublicKey
+  #   identityChainID
+  #   localServerPublicKey
+  #   network
+  #   p2pPort
+  #   seedUrl
+  #   specialPeers
   config: {}
+
   network: mainnet # or testnet
-  role: follower # or authority
+  isAuthority: false
 
   _args:
     defaults:
@@ -86,10 +116,10 @@ persistentVolumeClaim:
 services:
 - name: api
   configPortName: apiPort
-  type: LoadBalancer
-- name: control-panel
+  type: ClusterIP
+- name: cpanel
   configPortName: controlPanelPort
-  type: NodePort
+  type: ClusterIP
 - name: p2p
   configPortName: p2pPort
   type: LoadBalancer

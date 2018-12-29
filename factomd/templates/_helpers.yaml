@@ -56,7 +56,7 @@
 {{- with .factomd -}}
 {{- $global := ._args.defaults.global -}}
 {{- $network := index ._args.defaults .network -}}
-{{- $argValue := index (merge .args $network $global) $key -}}
+{{- $argValue := index (merge .args $network $global) $key | default "" -}}
 {{- required (printf "No argument value was found for key '%s'" $key) $argValue -}}
 {{- end -}}
 {{- end -}}
@@ -78,17 +78,20 @@
   Lookup the confguration file setting value, given the factomd object and the key
 */}}
 {{- define "factomd.configValue" -}}
+{{- $f := .factomd -}}
 {{- $key := .key -}}
-{{- with .factomd -}}
-{{- $global := ._config.defaults.global -}}
-{{- $network := index ._config.defaults .network -}}
-{{- $configValue := index (merge .config $network $global) $key -}}
-{{- required (printf "No configuration setting value was found for key '%s'" $key) $configValue -}}
+{{- $allowEmpty := default false .allowEmpty -}}
+{{- $global := $f._config.defaults.global -}}
+{{- $network := index $f._config.defaults $f.network -}}
+{{- $configValue := index (merge $f.config $network $global) $key | default "" -}}
+{{- if and (empty $configValue) (not $allowEmpty) -}}
+{{- fail (printf "No configuration setting value was found for key '%s'" $key) -}}
 {{- end -}}
+{{- $configValue -}}
 {{- end -}}
 
 {{/*
-  Lookup the confguration file default, given the factomd object and the key
+  Lookup the confguration file setting default, given the factomd object and the key
 */}}
 {{- define "factomd.configDefault" -}}
 {{- $key := .key -}}
