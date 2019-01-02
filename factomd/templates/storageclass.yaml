@@ -2,16 +2,16 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: {{ template "app.fullname" . }}-sc
+  name: {{ include "app.fullname" . }}-sc
   labels:
-    app: {{ template "app.name" . }}
-    chart: {{ template "app.chart" . }}
+    app: {{ include "app.name" . }}
+    chart: {{ include "app.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 {{- if eq .Values.cloudProvider "gcp" }}
 provisioner: kubernetes.io/gce-pd
 parameters:
-  type: pd-ssd
+  type: pd-{{ .Values.factomd.database.diskType }}
 {{- end }}
 allowVolumeExpansion: true
 volumeBindingMode: Immediate
